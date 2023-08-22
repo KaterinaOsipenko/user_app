@@ -1,6 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
+
 import 'package:user_app/controllers/cards_controller.dart';
 import 'package:user_app/models/user.dart';
 import 'package:user_app/screens/card_details.dart';
@@ -8,7 +10,10 @@ import 'package:user_app/screens/card_details.dart';
 class CardItem extends StatelessWidget {
   final User user;
   CardsController cardsController = Get.find();
-  CardItem({super.key, required this.user});
+  CardItem({
+    Key? key,
+    required this.user,
+  }) : super(key: key);
 
   void onSelected() async {
     Get.to(CardDetails(user: await cardsController.getUser(user.id)));

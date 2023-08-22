@@ -21,7 +21,7 @@ class CardDetails extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: cardsController.status == Status.loadind
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : cardsController.status == Status.error
                   ? ErrorUserWidget()
                   : SizedBox(

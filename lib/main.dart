@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:user_app/screens/cards_screen.dart';
 
 void main() {
@@ -12,8 +11,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var logger =
-        Logger(printer: PrettyPrinter(colors: true, printEmojis: true));
     return GetMaterialApp(
       home: CardsScreen(),
     );

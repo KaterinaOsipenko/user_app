@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:user_app/models/status.dart';
 import 'package:user_app/models/user.dart';
@@ -8,16 +9,30 @@ class CardsController extends GetxController {
 
   var status = Status.done.obs;
 
+  var page = 1;
+
+  ScrollController scrollContoller = ScrollController();
+
   ApiService apiService = Get.put(ApiService());
 
   void getUsers() async {
     status(Status.loadind);
     try {
-      users.addAll(await apiService.getUsers());
+      users.addAll(await apiService.getUsers(page));
       status(Status.done);
     } catch (e) {
       status(Status.error);
     }
+  }
+
+  void loadMore() async {
+    scrollContoller.addListener(() {
+      if (scrollContoller.position.maxScrollExtent ==
+          scrollContoller.position.pixels) {
+        page = page + 1;
+        getUsers();
+      }
+    });
   }
 
   Future<User> getUser(int id) async {
@@ -37,6 +52,7 @@ class CardsController extends GetxController {
   @override
   void onInit() {
     getUsers();
+    loadMore();
     super.onInit();
   }
 }

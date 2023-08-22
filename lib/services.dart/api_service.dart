@@ -6,9 +6,10 @@ import 'package:user_app/utilities/constants.dart';
 class ApiService {
   final client = Get.put(Dio());
 
-  Future<List<User>> getUsers() async {
+  Future<List<User>> getUsers(int page) async {
     try {
-      final response = await client.get(apiUrl);
+      final response =
+          await client.get(apiUrl, queryParameters: {"page": page});
       if (response.statusCode == 200) {
         var data = response.data["data"] as List;
         return parseUsers(data);
