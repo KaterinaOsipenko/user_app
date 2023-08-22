@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_app/controllers/cards_controller.dart';
 import 'package:user_app/models/status.dart';
+import 'package:user_app/utilities/constants.dart';
 import 'package:user_app/widgets/card_item.dart';
 import 'package:user_app/widgets/error_user_widget.dart';
 
@@ -12,6 +13,9 @@ class CardsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(title),
+      ),
       body: SafeArea(
         child: Obx(
           () => cardsController.status == Status.loadind

@@ -10,17 +10,28 @@ class CardsController extends GetxController {
 
   ApiService apiService = Get.put(ApiService());
 
-  Future<void> getUsers() async {
-    print('Controller');
+  void getUsers() async {
     status(Status.loadind);
     try {
       users.addAll(await apiService.getUsers());
-      print('Contr oller');
-      print(users.first);
       status(Status.done);
     } catch (e) {
       status(Status.error);
     }
+  }
+
+  Future<User> getUser(int id) async {
+    status(Status.loadind);
+    var user;
+    try {
+      user = await apiService.getUser(id);
+      status(Status.done);
+    } catch (e) {
+      status(Status.error);
+    } finally {
+      status(Status.done);
+    }
+    return user;
   }
 
   @override

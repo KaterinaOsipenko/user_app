@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:user_app/models/user.dart';
 import 'package:user_app/utilities/constants.dart';
@@ -19,6 +18,25 @@ class ApiService {
     } catch (e) {
       throw Exception(failedToLoadUsersException);
     }
+  }
+
+  Future<User> getUser(int id) async {
+    try {
+      final response = await client.get('$apiUrl$id');
+      if (response.statusCode == 200) {
+        var data = response.data["data"];
+
+        return parseUser(data);
+      } else {
+        throw Exception(failedToLoadUsersException);
+      }
+    } catch (e) {
+      throw Exception(failedToLoadUsersException);
+    }
+  }
+
+  User parseUser(var response) {
+    return User.fromJson(response);
   }
 
   List<User> parseUsers(List response) {
