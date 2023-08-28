@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:user_app/models/status.dart';
 import 'package:user_app/models/user.dart';
 import 'package:user_app/services/api_service.dart';
+import 'package:user_app/services/local_storage_service.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 class CardsController extends GetxController {
   final users = List<User>.empty().obs;
@@ -11,17 +13,33 @@ class CardsController extends GetxController {
 
   var page = 1;
 
+  final LocalStorageService localStorageService =
+      Get.put(LocalStorageService());
+
   ScrollController scrollContoller = ScrollController();
 
   ApiService apiService = Get.put(ApiService());
 
   void getUsers() async {
     status(Status.loadind);
+    var loadedUsers;
     try {
-      users.addAll(await apiService.getUsers(page));
+      loadedUsers = await apiService.getUsers(page);
+      users.addAll(loadedUsers);
+      localStorageService.save(loadedUsers);
       status(Status.done);
     } catch (e) {
-      status(Status.error);
+      if (!await InternetConnectionChecker.createInstance().hasConnection) {
+        print('no connection');
+        try {
+          users.addAll(await localStorageService.read());
+          status(Status.done);
+        } catch (e) {
+          status(Status.error);
+        }
+      } else {
+        status(Status.error);
+      }
     }
   }
 

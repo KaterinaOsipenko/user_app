@@ -6,3 +6,4 @@ const String failedToLoadUserMsg = 'Sorry, Failed to load cards.';
 const String tryAgainError = 'Try again.';
 
 const String title = 'Lagoon';
+const String listKey = 'usrList';
